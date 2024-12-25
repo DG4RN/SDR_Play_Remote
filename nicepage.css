@@ -44245,16 +44245,31 @@ a.u-link.u-text-hover-grey-90:hover {
 }
 
 .u-header .u-sheet-1 {
-  min-height: 80px;
+  min-height: 158px;
 }
 
 .u-header .u-text-1 {
-  margin-bottom: 60px;
+  margin-bottom: 0;
   font-weight: 700;
+  margin-top: 20px;
 }
 
+.u-header .u-text-2 {
+  font-weight: 700;
+  font-size: 1.25rem;
+  margin: -29px auto 60px;
+}
+@media (max-width: 1199px) {
+  .u-header .u-text-2 {
+    margin-top: -29px;
+  }
+}
 
-
+@media (max-width: 767px) {
+  .u-header .u-text-2 {
+    font-size: 1rem;
+  }
+}
 
  .u-footer {
   background-image: none;
