@@ -318,5 +318,25 @@ namespace SDR_Play_Remote
                 client.Close();
             }
         }
+
+        private void btnClose_MouseMove(object sender, MouseEventArgs e)
+        {
+            toolTip1.SetToolTip(btnClose,"Stop of Programm");
+        }
+
+        private void radioButtonANT1_MouseMove(object sender, MouseEventArgs e)
+        {
+            toolTip1.SetToolTip(radioButtonANT1, "Switch Input SDR to Antenna 1");
+        }
+
+        private void radioButtonANT2_MouseMove(object sender, MouseEventArgs e)
+        {
+            toolTip1.SetToolTip(radioButtonANT2, "Switch Input SDR to Antenna 2");
+        }
+
+        private void radioButtonANT3_MouseMove(object sender, MouseEventArgs e)
+        {
+            toolTip1.SetToolTip(radioButtonANT3, "Switch Input SDR to Antenna 3");
+        }
     }
 }
