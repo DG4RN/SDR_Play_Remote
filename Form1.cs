@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.IO.Ports;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Button;
 
 namespace SDR_Play_Remote
 {
-    
+
     public partial class Form1 : Form
     {
         private SerialPort serialPort;
-                  
-        bool ptt;
+               
+        private TcpClient client = new TcpClient("192.168.178.60", 27299);
+        private NetworkStream stream;
+        private Thread receiveThread;
+
+        
 
         public Form1()
         {
@@ -27,25 +33,52 @@ namespace SDR_Play_Remote
             this.serialPort.Open();
 
             this.serialPort.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(PttHandler);
-
+            
         }
 
-
+        private void ReceiveMessages()
+        {
+            try
+            {
+                while (true)
+                {
+                    // Buffer für eingehende Daten
+                    byte[] buffer = new byte[256];
+                    int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                    if (bytesRead > 0)
+                    {
+                        string response = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+                        // Füge die empfangene Nachricht zur Textbox hinzu
+                        textBox3.Clear();
+                        textBox3.Invoke((MethodInvoker)delegate
+                        {
+                            textBox3.AppendText("\n:" + response + Environment.NewLine);
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                // Setze den Verbindungsstatus
+                //labelStatus.Invoke((MethodInvoker)delegate
+                {
+                    textBox3.AppendText("Link lost" +ex.Message);
+                }
+                
+            }
+        }
 
 
         private void btnCloseClick(object sender, EventArgs e)
         {
+            NetworkStream stream = client.GetStream();
+            stream.Close();
+            client.Close();
             Application.Exit();
         }
 
         private void btnSendmsgClick(object sender, EventArgs e)
         {
-            string server = "192.168.178.60";
-            int port = 27299;
-            // TCP-Client einrichten und verbinden
-            TcpClient client = new TcpClient(server, port);
-                       
-
             //Nachrichten in Bytes konvertieren
             string message = "TX";
             byte[] data = Encoding.ASCII.GetBytes(message);
@@ -54,15 +87,13 @@ namespace SDR_Play_Remote
             NetworkStream stream = client.GetStream();
             stream.Write(data, 0, data.Length);
 
-            // Verbindung schließen
-            stream.Close();
-            client.Close();
+          
         }
 
         private void InitCom(object sender, EventArgs e)
         {
-            
-           
+
+
         }
 
         private void PttHandler(object sender, System.IO.Ports.SerialDataReceivedEventArgs e)
@@ -73,13 +104,7 @@ namespace SDR_Play_Remote
             {
                 if ((buffer[0] == (byte)'T') && (buffer[1] == (byte)'X'))
                 {
-                    string server = "192.168.178.60";
-                    int port = 27299;
-                    // TCP-Client einrichten und verbinden
-                    TcpClient client = new TcpClient(server, port);
-
-
-                    //Nachrichten in Bytes konvertieren
+                   //Nachrichten in Bytes konvertieren
                     string message = "TX";
                     byte[] data = Encoding.ASCII.GetBytes(message);
 
@@ -89,22 +114,13 @@ namespace SDR_Play_Remote
                     NetworkStream stream = client.GetStream();
                     stream.Write(data, 0, data.Length);
 
-                    // Verbindung schließen
-                    stream.Close();
-                    client.Close();
+                 
                     serialPort.DiscardInBuffer();
-                    ptt = true;
+                    
                     label1.BackColor = Color.Red;
                 }
-                if((buffer[0] == (byte)'R') && (buffer[1] == (byte)'X'))
+                if ((buffer[0] == (byte)'R') && (buffer[1] == (byte)'X'))
                 {
-
-                    string server = "192.168.178.60";
-                    int port = 27299;
-                    // TCP-Client einrichten und verbinden
-                    TcpClient client = new TcpClient(server, port);
-
-
                     //Nachrichten in Bytes konvertieren
                     string message = "RX";
                     byte[] data = Encoding.ASCII.GetBytes(message);
@@ -115,16 +131,14 @@ namespace SDR_Play_Remote
                     NetworkStream stream = client.GetStream();
                     stream.Write(data, 0, data.Length);
 
-                    // Verbindung schließen
-                    stream.Close();
-                    client.Close();
+                    
                     serialPort.DiscardInBuffer();
-                    ptt = false;
+                    
                     label1.BackColor = Color.Green;
                 }
-                
+
             }
-            
+
         }
 
         private void LNAcheckBox1_CheckedChanged(object sender, EventArgs e)
@@ -132,34 +146,22 @@ namespace SDR_Play_Remote
             if (LNAcheckBox1.Checked)
             {
                 // Code für den Fall, dass die CheckBox aktiviert ist
-                string server = "192.168.178.60";
-                int port = 27299;
-                // TCP-Client einrichten und verbinden
-                TcpClient client = new TcpClient(server, port);
-
-
+               
                 //Nachrichten in Bytes konvertieren
                 string message = "LNA1";
                 byte[] data = Encoding.ASCII.GetBytes(message);
-                                
+
 
                 // Datenstream abrufen und Nachrichten senden
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
 
-                // Verbindung schließen
-                stream.Close();
-                client.Close();
+                
             }
             else
             {
                 // Code für den Fall, dass die CheckBox nicht aktiviert ist
-                string server = "192.168.178.60";
-                int port = 27299;
-                // TCP-Client einrichten und verbinden
-                TcpClient client = new TcpClient(server, port);
-
-
+               
                 //Nachrichten in Bytes konvertieren
                 string message = "LNA0";
                 byte[] data = Encoding.ASCII.GetBytes(message);
@@ -169,9 +171,7 @@ namespace SDR_Play_Remote
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
 
-                // Verbindung schließen
-                stream.Close();
-                client.Close();
+                
             }
         }
 
@@ -180,12 +180,7 @@ namespace SDR_Play_Remote
             if (radioButtonANT1.Checked)
             {
                 // Code für den Fall, dass die CheckBox aktiviert ist
-                string server = "192.168.178.60";
-                int port = 27299;
-                // TCP-Client einrichten und verbinden
-                TcpClient client = new TcpClient(server, port);
-
-
+              
                 //Nachrichten in Bytes konvertieren
                 string message = "ANT11";
                 byte[] data = Encoding.ASCII.GetBytes(message);
@@ -195,19 +190,12 @@ namespace SDR_Play_Remote
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
 
-                // Verbindung schließen
-                stream.Close();
-                client.Close();
+                
             }
             else
             {
                 // Code für den Fall, dass die CheckBox nicht aktiviert ist
-                string server = "192.168.178.60";
-                int port = 27299;
-                // TCP-Client einrichten und verbinden
-                TcpClient client = new TcpClient(server, port);
-
-
+               
                 //Nachrichten in Bytes konvertieren
                 string message = "ANT10";
                 byte[] data = Encoding.ASCII.GetBytes(message);
@@ -217,9 +205,7 @@ namespace SDR_Play_Remote
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
 
-                // Verbindung schließen
-                stream.Close();
-                client.Close();
+                
             }
         }
 
@@ -228,12 +214,7 @@ namespace SDR_Play_Remote
             if (radioButtonANT2.Checked)
             {
                 // Code für den Fall, dass die CheckBox aktiviert ist
-                string server = "192.168.178.60";
-                int port = 27299;
-                // TCP-Client einrichten und verbinden
-                TcpClient client = new TcpClient(server, port);
-
-
+                
                 //Nachrichten in Bytes konvertieren
                 string message = "ANT21";
                 byte[] data = Encoding.ASCII.GetBytes(message);
@@ -243,19 +224,12 @@ namespace SDR_Play_Remote
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
 
-                // Verbindung schließen
-                stream.Close();
-                client.Close();
+                
             }
             else
             {
                 // Code für den Fall, dass die CheckBox nicht aktiviert ist
-                string server = "192.168.178.60";
-                int port = 27299;
-                // TCP-Client einrichten und verbinden
-                TcpClient client = new TcpClient(server, port);
-
-
+                
                 //Nachrichten in Bytes konvertieren
                 string message = "ANT20";
                 byte[] data = Encoding.ASCII.GetBytes(message);
@@ -265,9 +239,7 @@ namespace SDR_Play_Remote
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
 
-                // Verbindung schließen
-                stream.Close();
-                client.Close();
+                
             }
         }
 
@@ -276,12 +248,7 @@ namespace SDR_Play_Remote
             if (radioButtonANT3.Checked)
             {
                 // Code für den Fall, dass die CheckBox aktiviert ist
-                string server = "192.168.178.60";
-                int port = 27299;
-                // TCP-Client einrichten und verbinden
-                TcpClient client = new TcpClient(server, port);
-
-
+                
                 //Nachrichten in Bytes konvertieren
                 string message = "ANT31";
                 byte[] data = Encoding.ASCII.GetBytes(message);
@@ -291,19 +258,12 @@ namespace SDR_Play_Remote
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
 
-                // Verbindung schließen
-                stream.Close();
-                client.Close();
+                
             }
             else
             {
                 // Code für den Fall, dass die CheckBox nicht aktiviert ist
-                string server = "192.168.178.60";
-                int port = 27299;
-                // TCP-Client einrichten und verbinden
-                TcpClient client = new TcpClient(server, port);
-
-
+                
                 //Nachrichten in Bytes konvertieren
                 string message = "ANT30";
                 byte[] data = Encoding.ASCII.GetBytes(message);
@@ -313,15 +273,13 @@ namespace SDR_Play_Remote
                 NetworkStream stream = client.GetStream();
                 stream.Write(data, 0, data.Length);
 
-                // Verbindung schließen
-                stream.Close();
-                client.Close();
+                
             }
         }
 
         private void btnClose_MouseMove(object sender, MouseEventArgs e)
         {
-            toolTip1.SetToolTip(btnClose,"Stop of Programm");
+            toolTip1.SetToolTip(btnClose, "Stop of Programm");
         }
 
         private void radioButtonANT1_MouseMove(object sender, MouseEventArgs e)
@@ -337,6 +295,27 @@ namespace SDR_Play_Remote
         private void radioButtonANT3_MouseMove(object sender, MouseEventArgs e)
         {
             toolTip1.SetToolTip(radioButtonANT3, "Switch Input SDR to Antenna 3");
+        }
+
+        private void buttonConnect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                
+                // Erhalte den NetworkStream
+                stream = client.GetStream();
+
+                // Starte den Empfang-Thread
+                receiveThread = new Thread(ReceiveMessages);
+                receiveThread.Start();
+
+                // Setze den Verbindungsstatus
+                buttonConnect.Text = "linked";
+            }
+            catch (Exception ex)
+            {
+                buttonConnect.Text = ("Error" + ex.Message);
+            }
         }
     }
 }

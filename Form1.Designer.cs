@@ -41,6 +41,9 @@
             this.radioButtonANT1 = new System.Windows.Forms.RadioButton();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.buttonConnect = new System.Windows.Forms.Button();
+            this.textBox4 = new System.Windows.Forms.TextBox();
             serialPTT = new System.IO.Ports.SerialPort(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -52,7 +55,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(277, 132);
+            this.textBox1.Location = new System.Drawing.Point(28, 68);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 22);
@@ -61,7 +64,7 @@
             // btnClose
             // 
             this.btnClose.BackColor = System.Drawing.SystemColors.InactiveCaption;
-            this.btnClose.Location = new System.Drawing.Point(277, 188);
+            this.btnClose.Location = new System.Drawing.Point(277, 308);
             this.btnClose.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnClose.Name = "btnClose";
             this.btnClose.Size = new System.Drawing.Size(99, 30);
@@ -73,7 +76,7 @@
             // 
             // btnSendmsg
             // 
-            this.btnSendmsg.Location = new System.Drawing.Point(31, 26);
+            this.btnSendmsg.Location = new System.Drawing.Point(317, 68);
             this.btnSendmsg.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.btnSendmsg.Name = "btnSendmsg";
             this.btnSendmsg.Size = new System.Drawing.Size(99, 30);
@@ -87,7 +90,7 @@
             // 
             this.label1.BackColor = System.Drawing.Color.LightBlue;
             this.label1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.label1.Location = new System.Drawing.Point(200, 82);
+            this.label1.Location = new System.Drawing.Point(155, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(30, 16);
             this.label1.TabIndex = 3;
@@ -98,7 +101,7 @@
             this.LNAcheckBox1.AutoSize = true;
             this.LNAcheckBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.LNAcheckBox1.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.LNAcheckBox1.Location = new System.Drawing.Point(77, 144);
+            this.LNAcheckBox1.Location = new System.Drawing.Point(58, 150);
             this.LNAcheckBox1.Name = "LNAcheckBox1";
             this.LNAcheckBox1.Size = new System.Drawing.Size(136, 22);
             this.LNAcheckBox1.TabIndex = 4;
@@ -167,12 +170,41 @@
             // textBox2
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.MenuText;
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBox2.ForeColor = System.Drawing.SystemColors.MenuBar;
-            this.textBox2.Location = new System.Drawing.Point(58, 79);
+            this.textBox2.Location = new System.Drawing.Point(28, 26);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(121, 22);
+            this.textBox2.Size = new System.Drawing.Size(121, 15);
             this.textBox2.TabIndex = 6;
             this.textBox2.Text = "RX / TX Indicator\r\n";
+            // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(261, 26);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(184, 22);
+            this.textBox3.TabIndex = 7;
+            // 
+            // buttonConnect
+            // 
+            this.buttonConnect.Location = new System.Drawing.Point(276, 149);
+            this.buttonConnect.Name = "buttonConnect";
+            this.buttonConnect.Size = new System.Drawing.Size(100, 23);
+            this.buttonConnect.TabIndex = 8;
+            this.buttonConnect.Text = "connect sdr";
+            this.buttonConnect.UseVisualStyleBackColor = true;
+            this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
+            // 
+            // textBox4
+            // 
+            this.textBox4.BackColor = System.Drawing.SystemColors.InfoText;
+            this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.textBox4.ForeColor = System.Drawing.SystemColors.Info;
+            this.textBox4.Location = new System.Drawing.Point(261, 0);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(184, 22);
+            this.textBox4.TabIndex = 9;
+            this.textBox4.Text = "Battery Voltage:";
             // 
             // Form1
             // 
@@ -180,6 +212,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(457, 358);
+            this.Controls.Add(this.textBox4);
+            this.Controls.Add(this.buttonConnect);
+            this.Controls.Add(this.textBox3);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.LNAcheckBox1);
@@ -213,6 +248,9 @@
         private System.Windows.Forms.RadioButton radioButtonANT1;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.Button buttonConnect;
+        private System.Windows.Forms.TextBox textBox4;
     }
 }
 
