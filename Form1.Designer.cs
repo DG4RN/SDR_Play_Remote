@@ -44,6 +44,7 @@
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.buttonConnect = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
+            this.PTT_enable_checkBox = new System.Windows.Forms.CheckBox();
             serialPTT = new System.IO.Ports.SerialPort(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -180,14 +181,14 @@
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(261, 26);
+            this.textBox3.Location = new System.Drawing.Point(261, 29);
             this.textBox3.Name = "textBox3";
             this.textBox3.Size = new System.Drawing.Size(184, 22);
             this.textBox3.TabIndex = 7;
             // 
             // buttonConnect
             // 
-            this.buttonConnect.Location = new System.Drawing.Point(276, 149);
+            this.buttonConnect.Location = new System.Drawing.Point(276, 188);
             this.buttonConnect.Name = "buttonConnect";
             this.buttonConnect.Size = new System.Drawing.Size(100, 23);
             this.buttonConnect.TabIndex = 8;
@@ -200,11 +201,27 @@
             this.textBox4.BackColor = System.Drawing.SystemColors.InfoText;
             this.textBox4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.textBox4.ForeColor = System.Drawing.SystemColors.Info;
-            this.textBox4.Location = new System.Drawing.Point(261, 0);
+            this.textBox4.Location = new System.Drawing.Point(261, 3);
+            this.textBox4.Margin = new System.Windows.Forms.Padding(1);
             this.textBox4.Name = "textBox4";
             this.textBox4.Size = new System.Drawing.Size(184, 22);
             this.textBox4.TabIndex = 9;
             this.textBox4.Text = "Battery Voltage:";
+            // 
+            // PTT_enable_checkBox
+            // 
+            this.PTT_enable_checkBox.AutoSize = true;
+            this.PTT_enable_checkBox.Checked = true;
+            this.PTT_enable_checkBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.PTT_enable_checkBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PTT_enable_checkBox.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.PTT_enable_checkBox.Location = new System.Drawing.Point(58, 127);
+            this.PTT_enable_checkBox.Name = "PTT_enable_checkBox";
+            this.PTT_enable_checkBox.Size = new System.Drawing.Size(199, 22);
+            this.PTT_enable_checkBox.TabIndex = 10;
+            this.PTT_enable_checkBox.Text = "PTT Input SW ON/OFF";
+            this.PTT_enable_checkBox.UseVisualStyleBackColor = true;
+            this.PTT_enable_checkBox.CheckedChanged += new System.EventHandler(this.PTT_enable_checkBox_CheckedChanged);
             // 
             // Form1
             // 
@@ -212,6 +229,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(457, 358);
+            this.Controls.Add(this.PTT_enable_checkBox);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.buttonConnect);
             this.Controls.Add(this.textBox3);
@@ -251,6 +269,7 @@
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.CheckBox PTT_enable_checkBox;
     }
 }
 

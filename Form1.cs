@@ -18,6 +18,12 @@ namespace SDR_Play_Remote
 
     public partial class Form1 : Form
     {
+
+        public static class Globals
+        { 
+         public static bool ptt_enable = true;
+        }
+
         private SerialPort serialPort;
                
         private TcpClient client = new TcpClient("192.168.178.60", 27299);
@@ -102,7 +108,7 @@ namespace SDR_Play_Remote
             int bytesRead = serialPort.Read(buffer, 0, 2);
             if (bytesRead > 1)
             {
-                if ((buffer[0] == (byte)'T') && (buffer[1] == (byte)'X'))
+                if ((buffer[0] == (byte)'T') && (buffer[1] == (byte)'X') && (Globals.ptt_enable == true) )
                 {
                    //Nachrichten in Bytes konvertieren
                     string message = "TX";
@@ -315,6 +321,34 @@ namespace SDR_Play_Remote
             catch (Exception ex)
             {
                 buttonConnect.Text = ("Error" + ex.Message);
+            }
+        }
+
+        private void PTT_enable_checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (PTT_enable_checkBox.Checked)
+            {
+                // Code für den Fall, dass die CheckBox aktiviert ist
+                Globals.ptt_enable = true;
+                
+            }
+            else
+            {
+                // Code für den Fall, dass die CheckBox nicht aktiviert ist
+                Globals.ptt_enable = false;
+
+                string message = "RX";
+                byte[] data = Encoding.ASCII.GetBytes(message);
+
+                textBox1.Text = "RX Aktiv";
+
+                // Datenstream abrufen und Nachrichten senden
+                NetworkStream stream = client.GetStream();
+                stream.Write(data, 0, data.Length);
+
+
+                serialPort.DiscardInBuffer();
+
             }
         }
     }
