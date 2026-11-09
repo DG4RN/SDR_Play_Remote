@@ -1,6 +1,6 @@
 ﻿namespace SDR_Play_Remote
 {
-    partial class Form1
+    public partial class Form1
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.IO.Ports.SerialPort serialPTT;
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnSendmsg = new System.Windows.Forms.Button();
@@ -39,20 +38,12 @@
             this.radioButtonANT3 = new System.Windows.Forms.RadioButton();
             this.radioButtonANT2 = new System.Windows.Forms.RadioButton();
             this.radioButtonANT1 = new System.Windows.Forms.RadioButton();
-            this.textBox2 = new System.Windows.Forms.TextBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.buttonConnect = new System.Windows.Forms.Button();
             this.textBox4 = new System.Windows.Forms.TextBox();
-            this.PTT_enable_checkBox = new System.Windows.Forms.CheckBox();
-            serialPTT = new System.IO.Ports.SerialPort(this.components);
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // serialPTT
-            // 
-            serialPTT.PortName = "COM28";
-            serialPTT.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.PttHandler);
             // 
             // textBox1
             // 
@@ -168,17 +159,6 @@
             this.radioButtonANT1.CheckedChanged += new System.EventHandler(this.radioButtonANT1_CheckedChanged);
             this.radioButtonANT1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.radioButtonANT1_MouseMove);
             // 
-            // textBox2
-            // 
-            this.textBox2.BackColor = System.Drawing.SystemColors.MenuText;
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox2.ForeColor = System.Drawing.SystemColors.MenuBar;
-            this.textBox2.Location = new System.Drawing.Point(28, 26);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(121, 15);
-            this.textBox2.TabIndex = 6;
-            this.textBox2.Text = "RX / TX Indicator\r\n";
-            // 
             // textBox3
             // 
             this.textBox3.Location = new System.Drawing.Point(261, 29);
@@ -208,32 +188,15 @@
             this.textBox4.TabIndex = 9;
             this.textBox4.Text = "Battery Voltage:";
             // 
-            // PTT_enable_checkBox
-            // 
-            this.PTT_enable_checkBox.AutoSize = true;
-            this.PTT_enable_checkBox.Checked = true;
-            this.PTT_enable_checkBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.PTT_enable_checkBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PTT_enable_checkBox.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.PTT_enable_checkBox.Location = new System.Drawing.Point(58, 127);
-            this.PTT_enable_checkBox.Name = "PTT_enable_checkBox";
-            this.PTT_enable_checkBox.Size = new System.Drawing.Size(199, 22);
-            this.PTT_enable_checkBox.TabIndex = 10;
-            this.PTT_enable_checkBox.Text = "PTT Input SW ON/OFF";
-            this.PTT_enable_checkBox.UseVisualStyleBackColor = true;
-            this.PTT_enable_checkBox.CheckedChanged += new System.EventHandler(this.PTT_enable_checkBox_CheckedChanged);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(457, 358);
-            this.Controls.Add(this.PTT_enable_checkBox);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.buttonConnect);
             this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.LNAcheckBox1);
             this.Controls.Add(this.label1);
@@ -264,12 +227,11 @@
         private System.Windows.Forms.RadioButton radioButtonANT3;
         private System.Windows.Forms.RadioButton radioButtonANT2;
         private System.Windows.Forms.RadioButton radioButtonANT1;
-        private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.Button buttonConnect;
         private System.Windows.Forms.TextBox textBox4;
-        private System.Windows.Forms.CheckBox PTT_enable_checkBox;
+       // private System.Windows.Forms.CheckBox PTT_enable_checkBox;
     }
 }
 
